@@ -5,6 +5,12 @@
             <a href="#" class="simple-text logo-normal">{{ _('White Dashboard') }}</a>
         </div>
         <ul class="nav">
+            <li>
+                <a href="{{ route('user.index') }}">
+                    <i class="tim-icons icon-bullet-list-67"></i>
+                    <p>{{ _('Usuários') }}</p>
+                </a>
+            </li>
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
                 <a href="{{ route('home') }}">
                     <i class="tim-icons icon-chart-pie-36"></i>
