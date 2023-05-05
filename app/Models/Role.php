@@ -20,7 +20,7 @@ class Role extends Model
     public function createdAt(): string
     {
         return Carbon::createFromDate($this->created_at)
-            ->format($this->dateFormat);
+            ->format('d/m/Y H:i');
     }
 
     public function users(): HasMany
