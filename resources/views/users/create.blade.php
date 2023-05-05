@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="title">{{ _('Editar Usuário') }}</h5>
+                    <h5 class="title">{{ _('Novo Usuário') }}</h5>
                 </div>
                 <form method="post" action="{{ route('user.store') }}" autocomplete="off">
                     @csrf

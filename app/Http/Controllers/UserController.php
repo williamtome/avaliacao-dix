@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -20,15 +18,9 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         // TODO: Adicionar campo de permissão que o admin escolheu para este novo usuário!
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -42,5 +34,17 @@ class UserController extends Controller
     public function edit(User $user): View
     {
         return view('users.edit', ['user' => $user]);
+    }
+
+    public function update(UserRequest $request, User $user)
+    {
+        // TODO: Adicionar campo de permissão que o admin escolheu para este novo usuário!
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+
+        return redirect()->route('user.edit', $user)
+            ->withStatus('Usuário atualizado com sucesso.');
     }
 }

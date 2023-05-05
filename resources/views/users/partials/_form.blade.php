@@ -29,12 +29,22 @@
     @if (!isset($user))
         <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
             <label>{{ __('Senha') }}</label>
-            <input type="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Senha') }}">
+            <input
+                type="password"
+                name="password"
+                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                placeholder="{{ __('Senha') }}"
+            >
             @include('alerts.feedback', ['field' => 'password'])
         </div>
         <div class="form-group">
             <label>{{ __('Confirme sua senha') }}</label>
-            <input type="password" name="password_confirmation" class="form-control" placeholder="{{ __('Confirme sua senha') }}">
+            <input
+                type="password"
+                name="password_confirmation"
+                class="form-control"
+                placeholder="{{ __('Confirme sua senha') }}"
+            >
         </div>
     @endif
 </div>

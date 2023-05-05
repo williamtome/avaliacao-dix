@@ -10,37 +10,9 @@
                 <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off">
                     <div class="card-body">
                         @csrf
-                        @method('put')
+                        @method('patch')
 
-                        @include('alerts.success')
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                            <label>{{ _('Nome') }}</label>
-                            <input
-                                type="text"
-                                name="name"
-                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                placeholder="{{ _('Nome') }}"
-                                value="{{ old('name', $user->name) }}"
-                            >
-                            @include('alerts.feedback', ['field' => 'name'])
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                            <label>{{ _('E-mail') }}</label>
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                placeholder="{{ _('E-mail') }}"
-                                value="{{ old('email', $user->email) }}"
-                            >
-                            @include('alerts.feedback', ['field' => 'email'])
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ route('user.index') }}">{{ _('Voltar') }}</a>
-                        <button type="submit" class="btn btn-fill btn-primary">{{ _('Salvar') }}</button>
+                        @include('users.partials._form', ['user' => $user])
                     </div>
                 </form>
             </div>
