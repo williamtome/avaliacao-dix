@@ -10,7 +10,9 @@ class UserController extends Controller
 {
     public function index(User $model): View
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        return view('users.index', [
+            'users' => $model->paginate(10)
+        ]);
     }
 
     public function create(): View
