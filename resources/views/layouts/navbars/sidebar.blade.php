@@ -7,8 +7,14 @@
         <ul class="nav">
             <li>
                 <a href="{{ route('user.index') }}">
-                    <i class="tim-icons icon-bullet-list-67"></i>
+                    <i class="tim-icons icon-single-02"></i>
                     <p>{{ _('Usuários') }}</p>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('role.index') }}">
+                    <i class="tim-icons icon-bullet-list-67"></i>
+                    <p>{{ _('Papéis e Permissões') }}</p>
                 </a>
             </li>
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
