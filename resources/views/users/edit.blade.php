@@ -39,6 +39,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="{{ route('user.index') }}">{{ _('Voltar') }}</a>
                         <button type="submit" class="btn btn-fill btn-primary">{{ _('Salvar') }}</button>
                     </div>
                 </form>
