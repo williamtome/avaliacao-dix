@@ -39,9 +39,17 @@ class RoleController extends Controller
         ]);
     }
 
-    public function store(RoleRequest $request): View
+    public function store(RoleRequest $request): RedirectResponse
     {
+        $role = Role::create([
+            'name' => $request->name,
+            'role' => $request->role,
+        ]);
 
+        $role->resources()->sync($request->permissions);
+
+        return redirect()->route('role.index')
+            ->withSuccess('Papel criado com sucesso.');
     }
 
     public function edit(Role $role): View
