@@ -1,7 +1,4 @@
 <div class="card-body">
-
-    @include('alerts.success')
-
     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
         <label>{{ _('Nome') }}</label>
         <input
@@ -14,9 +11,10 @@
         @include('alerts.feedback', ['field' => 'name'])
     </div>
 
-    @include('resource.table')
+    @include('resource.tables')
 </div>
+
 <div class="card-footer">
-    <a href="{{ route('user.index') }}">{{ _('Voltar') }}</a>
+    <a href="{{ route('role.index') }}">{{ _('Voltar') }}</a>
     <button type="submit" class="btn btn-fill btn-primary">{{ _('Salvar') }}</button>
 </div>

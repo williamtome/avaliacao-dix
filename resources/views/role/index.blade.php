@@ -16,7 +16,9 @@
                 </div>
             </div>
             <div class="card-body">
+
                 @include('alerts.success')
+
                 <div class="">
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">

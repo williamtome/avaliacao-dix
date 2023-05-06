@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Models\Resource;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
@@ -19,16 +20,35 @@ class RoleController extends Controller
 
     public function create(): View
     {
+        $resources = Resource::all();
+        $userResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'users')) {
+                return $value;
+            }
+        });
+
+        $newsResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'news')) {
+                return $value;
+            }
+        });
+
         return view('role.create', [
-            'resources' => Resource::all()
+            'userResources' => $userResources,
+            'newsResources' => $newsResources,
         ]);
+    }
+
+    public function store(RoleRequest $request): View
+    {
+
     }
 
     public function edit(Role $role): View
     {
         return view('role.edit', [
             'role' => $role,
-            'resource' => Resource::all(),
+            'resources' => Resource::all(),
         ]);
     }
 
