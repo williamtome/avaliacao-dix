@@ -17,6 +17,7 @@
                                                 name="permissions[]"
                                                 class="form-check-input"
                                                 type="checkbox"
+                                                @if (isset($role) && $role->resources->contains($userResource->id)) checked @endif
                                                 value="{{ $userResource->id }}"
                                             >
                                             <span class="form-check-sign"></span>
@@ -55,6 +56,7 @@
                                                 name="permissions[]"
                                                 class="form-check-input"
                                                 type="checkbox"
+                                                @if (isset($role) && $role->resources->contains($newsResource->id)) checked @endif
                                                 value="{{ $newsResource->id }}"
                                             >
                                             <span class="form-check-sign"></span>
