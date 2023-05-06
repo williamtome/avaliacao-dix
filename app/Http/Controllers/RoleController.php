@@ -17,14 +17,18 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function create(): View
+    {
+        return view('role.create', [
+            'resources' => Resource::all()
+        ]);
+    }
+
     public function edit(Role $role): View
     {
         return view('role.edit', [
             'role' => $role,
-            'resources' => Resource::all(),
+            'resource' => Resource::all(),
         ]);
     }
 

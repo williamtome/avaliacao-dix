@@ -24,7 +24,7 @@
                                 <th>Nome</th>
                                 <th>Data de criação</th>
                                 <th></th>
-{{--                                @if (auth()->user()->role->resources->where('resource', 'role.update'))--}}
+{{--                                @if (auth()->user()->role->resource->where('resource', 'role.update'))--}}
 {{--                                    <th></th>--}}
 {{--                                @endif--}}
                             </tr>
@@ -34,7 +34,7 @@
                                 <tr>
                                     <td>{{ $role->name }}</td>
                                     <td>{{ $role->createdAt() }}</td>
-{{--                                    @if (auth()->user()->role->resources->where('resource', 'role.update'))--}}
+{{--                                    @if (auth()->user()->role->resource->where('resource', 'role.update'))--}}
                                         <td class="text-rightr">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
