@@ -26,6 +26,28 @@
         @include('alerts.feedback', ['field' => 'email'])
     </div>
 
+    <div class="form-group{{ $errors->has('role') ? ' has-danger' : '' }}">
+        <label>{{ _('Papel') }}</label>
+        <select
+            name="role"
+            class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}"
+        >
+            @foreach($roles as $role)
+                <option
+                    value="{{ $role->id }}"
+                    {{ isset($user)
+                        && isset($user->role)
+                        && $user->role->id == $role->id
+                            ? 'selected'
+                            : '' }}
+                >
+                    {{ $role->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    @include('alerts.feedback', ['field' => 'role'])
+
     @if (!isset($user))
         <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
             <label>{{ __('Senha') }}</label>

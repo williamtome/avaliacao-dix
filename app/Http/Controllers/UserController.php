@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\View\View;
@@ -17,16 +18,18 @@ class UserController extends Controller
 
     public function create(): View
     {
-        return view('users.create');
+        return view('users.create', [
+            'roles' => Role::all(),
+        ]);
     }
 
     public function store(UserRequest $request)
     {
-        // TODO: Adicionar campo de permissão que o admin escolheu para este novo usuário!
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
+            'role_id' => $request->role,
         ]);
 
         return redirect()->route('user.index')
@@ -35,15 +38,18 @@ class UserController extends Controller
 
     public function edit(User $user): View
     {
-        return view('users.edit', ['user' => $user]);
+        return view('users.edit', [
+            'user' => $user,
+            'roles' => Role::all(),
+        ]);
     }
 
     public function update(UserRequest $request, User $user)
     {
-        // TODO: Adicionar campo de permissão que o admin escolheu para este novo usuário!
         $user->update([
             'name' => $request->name,
-            'email' => $request->email
+            'email' => $request->email,
+            'role_id' => $request->role,
         ]);
 
         return redirect()->route('user.edit', $user)
