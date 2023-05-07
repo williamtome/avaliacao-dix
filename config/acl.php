@@ -2,8 +2,8 @@
 
 return [
     'ignore_resources' => [
-        'profile.create',
-        'profile.edit',
+        'user.create',
+        'user.edit',
         'role.edit'
     ],
 ];

@@ -32,6 +32,7 @@
             name="role"
             class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}"
         >
+            <option value="">Selecione um papel</option>
             @foreach($roles as $role)
                 <option
                     value="{{ $role->id }}"
@@ -45,8 +46,8 @@
                 </option>
             @endforeach
         </select>
+        @include('alerts.feedback', ['field' => 'role'])
     </div>
-    @include('alerts.feedback', ['field' => 'role'])
 
     @if (!isset($user))
         <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
