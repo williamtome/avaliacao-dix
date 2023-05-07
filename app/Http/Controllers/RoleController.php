@@ -54,24 +54,36 @@ class RoleController extends Controller
 
     public function edit(Role $role): View
     {
+        $resources = Resource::all();
+        $userResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'users')) {
+                return $value;
+            }
+        });
+
+        $newsResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'news')) {
+                return $value;
+            }
+        });
+
         return view('role.edit', [
             'role' => $role,
-            'resources' => Resource::all(),
+            'userResources' => $userResources,
+            'newsResources' => $newsResources,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Role $role): RedirectResponse
+    public function update(RoleRequest $request, Role $role): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $role->update([
+            'name' => $request->name,
+            'role' => $request->role,
         ]);
 
-        $role->update(['name' => $request->name]);
         $role->resources()->sync($request->resources);
 
-        return redirect()->route('role.index');
+        return redirect()->route('role.index')
+            ->withSuccess('Papel atualizado com sucesso.');
     }
 }
