@@ -86,4 +86,17 @@ class RoleController extends Controller
         return redirect()->route('role.index')
             ->withSuccess('Papel atualizado com sucesso.');
     }
+
+    public function destroy(Role $role): RedirectResponse
+    {
+        $role->resources()->detach();
+        $role->users->each(function ($user) {
+            $user->role_id = null;
+            $user->save();
+        });
+        $role->delete();
+
+        return redirect()->route('role.index')
+            ->withSuccess('Papel removido com sucesso.');
+    }
 }

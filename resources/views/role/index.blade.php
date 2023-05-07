@@ -43,8 +43,17 @@
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a class="dropdown-item" href="{{ route('role.edit', $role) }}">Editar</a>
-                                                    <a class="dropdown-item" href="#">Remover</a>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="{{ route('role.edit', $role) }}"
+                                                    >
+                                                        Editar
+                                                    </a>
+                                                    <form method="post" action="{{ route('role.destroy', $role) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item">Remover</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
