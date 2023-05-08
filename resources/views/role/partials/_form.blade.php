@@ -20,8 +20,8 @@
                     name="role"
                     class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}"
                 >
-                    <option value="ROLE_ADMIN" {{ isset($role) && old('role') == $role->role ? 'selected' : '' }}>Administrador</option>
-                    <option value="ROLE_USER" {{ isset($role) && old('role') == $role->role ? 'selected' : '' }}>Usuário</option>
+                    <option value="ROLE_ADMIN" {{ isset($role) && $role->role == 'ROLE_ADMIN' ? 'selected' : '' }}>Administrador</option>
+                    <option value="ROLE_USER" {{ isset($role) && $role->role == 'ROLE_USER' ? 'selected' : '' }}>Usuário</option>
                 </select>
             </div>
             @include('alerts.feedback', ['field' => 'name'])
