@@ -44,8 +44,8 @@
                                 </td>
                             </tr>
                             @empty
-                                <td style="overflow: hidden; white-space: nowrap">
-                                    <span class="col-12 text-center">Não há notícias.</span>
+                                <td colspan="4" class="text-center">
+                                    Você não possui notícias.
                                 </td>
                             @endforelse
                         </tbody>

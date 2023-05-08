@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsRequest;
 use App\Http\Requests\RoleRequest;
 use App\Models\News;
 use App\Models\Resource;
@@ -25,70 +26,42 @@ class NewsController extends Controller
 
     public function create(): View
     {
-        return view('role.create', [
-            'userResources' => $userResources,
-            'newsResources' => $newsResources,
-        ]);
+        return view('news.create');
     }
 
-    public function store(RoleRequest $request): RedirectResponse
+    public function store(NewsRequest $request): RedirectResponse
     {
-        $role = Role::create([
-            'name' => $request->name,
-            'role' => $request->role,
+        News::create([
+            'title' => $request->name,
+            'content' => $request->role,
+            'user_id' => $request->user()->id
         ]);
 
-        $role->resources()->sync($request->permissions);
-
-        return redirect()->route('role.index')
-            ->withSuccess('Papel criado com sucesso.');
+        return redirect()->route('news.index')
+            ->withSuccess('Notícia criada com sucesso.');
     }
 
-    public function edit(Role $role): View
+    public function edit(News $news): View
     {
-        $resources = Resource::all();
-        $userResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'users')) {
-                return $value;
-            }
-        });
-
-        $newsResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'news')) {
-                return $value;
-            }
-        });
-
-        return view('role.edit', [
-            'role' => $role,
-            'userResources' => $userResources,
-            'newsResources' => $newsResources,
-        ]);
+        return view('news.edit', ['news' => $news]);
     }
 
-    public function update(RoleRequest $request, Role $role): RedirectResponse
+    public function update(NewsRequest $request, News $news): RedirectResponse
     {
-        $role->update([
-            'name' => $request->name,
-            'role' => $request->role,
+        $news->update([
+            'title' => $request->title,
+            'content' => $request->content,
         ]);
 
-        $role->resources()->sync($request->resources);
-
-        return redirect()->route('role.index')
-            ->withSuccess('Papel atualizado com sucesso.');
+        return redirect()->route('news.index')
+            ->withSuccess('Notícia atualizada com sucesso.');
     }
 
-    public function destroy(Role $role): RedirectResponse
+    public function destroy(News $news): RedirectResponse
     {
-        $role->resources()->detach();
-        $role->users->each(function ($user) {
-            $user->role_id = null;
-            $user->save();
-        });
-        $role->delete();
+        $news->delete();
 
-        return redirect()->route('role.index')
-            ->withSuccess('Papel removido com sucesso.');
+        return redirect()->route('news.index')
+            ->withSuccess('Notícia removida com sucesso.');
     }
 }
