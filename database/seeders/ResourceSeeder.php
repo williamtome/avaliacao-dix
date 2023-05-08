@@ -16,25 +16,25 @@ class ResourceSeeder extends Seeder
         Resource::updateOrCreate([
             'name' => 'Listar usuários',
         ], [
-            'resource' => 'users.index',
+            'resource' => 'user.index',
         ]);
 
         Resource::updateOrCreate([
             'name' => 'Cadastrar usuários',
         ], [
-            'resource' => 'users.store',
+            'resource' => 'user.store',
         ]);
 
         Resource::updateOrCreate([
             'name' => 'Atualizar usuários',
         ], [
-            'resource' => 'users.update',
+            'resource' => 'user.update',
         ]);
 
         Resource::updateOrCreate([
             'name' => 'Remover usuários',
         ], [
-            'resource' => 'users.destroy',
+            'resource' => 'user.destroy',
         ]);
 
         /**
