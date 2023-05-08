@@ -6,6 +6,7 @@ return [
         'user.edit',
         'news.create',
         'news.edit',
-        'role.edit'
+        'profile.edit',
+        'profile.update',
     ],
 ];
