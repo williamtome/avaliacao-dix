@@ -53,7 +53,15 @@ class UserController extends Controller
             'role_id' => $request->role,
         ]);
 
-        return redirect()->route('user.edit', $user)
+        return redirect()->route('user.index', $user)
             ->withStatus('Usuário atualizado com sucesso.');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('user.index', $user)
+            ->withStatus('Usuário removido com sucesso.');
     }
 }
