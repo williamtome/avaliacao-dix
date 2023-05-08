@@ -1,28 +1,33 @@
 <div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="#" class="simple-text logo-mini">{{ _('WD') }}</a>
-            <a href="#" class="simple-text logo-normal">{{ _('White Dashboard') }}</a>
+            <a href="#" class="simple-text logo-mini">{{ _('AD') }}</a>
+            <a href="#" class="simple-text logo-normal">{{ _('Avaliação DIX') }}</a>
         </div>
         <ul class="nav">
-            <li>
-                <a href="{{ route('user.index') }}">
-                    <i class="tim-icons icon-single-02"></i>
-                    <p>{{ _('Usuários') }}</p>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('role.index') }}">
-                    <i class="tim-icons icon-bullet-list-67"></i>
-                    <p>{{ _('Papéis e Permissões') }}</p>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('news.index') }}">
-                    <i class="tim-icons icon-paper"></i>
-                    <p>{{ _('Notícias') }}</p>
-                </a>
-            </li>
+            @if (auth()->user()->role->resources()->where('resource', 'user.index')->exists())
+                <li>
+                    <a href="{{ route('user.index') }}">
+                        <i class="tim-icons icon-single-02"></i>
+                        <p>{{ _('Usuários') }}</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('role.index') }}">
+                        <i class="tim-icons icon-bullet-list-67"></i>
+                        <p>{{ _('Papéis e Permissões') }}</p>
+                    </a>
+                </li>
+            @endif
+            @if (auth()->user()->role->resources()->where('resource', 'news.index')->exists())
+                <li>
+                    <a href="{{ route('news.index') }}">
+                        <i class="tim-icons icon-paper"></i>
+                        <p>{{ _('Notícias') }}</p>
+                    </a>
+                </li>
+            @endif
+            {{--
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
                 <a href="{{ route('home') }}">
                     <i class="tim-icons icon-chart-pie-36"></i>
@@ -95,6 +100,7 @@
                     <p>{{ _('Upgrade to PRO') }}</p>
                 </a>
             </li>
+            --}}
         </ul>
     </div>
 </div>

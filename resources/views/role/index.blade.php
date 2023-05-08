@@ -16,9 +16,7 @@
                 </div>
             </div>
             <div class="card-body">
-
                 @include('alerts.success')
-
                 <div class="">
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
@@ -26,9 +24,6 @@
                                 <th>Nome</th>
                                 <th>Data de criação</th>
                                 <th></th>
-{{--                                @if (auth()->user()->role->resource->where('resource', 'role.update'))--}}
-{{--                                    <th></th>--}}
-{{--                                @endif--}}
                             </tr>
                         </thead>
                         <tbody>
@@ -36,28 +31,26 @@
                                 <tr>
                                     <td>{{ $role->name }}</td>
                                     <td>{{ $role->createdAt() }}</td>
-{{--                                    @if (auth()->user()->role->resource->where('resource', 'role.update'))--}}
-                                        <td class="text-rightr">
-                                            <div class="dropdown">
-                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
+                                    <td class="text-rightr">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="{{ route('role.edit', $role) }}"
+                                                >
+                                                    Editar
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="{{ route('role.edit', $role) }}"
-                                                    >
-                                                        Editar
-                                                    </a>
-                                                    <form method="post" action="{{ route('role.destroy', $role) }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="dropdown-item">Remover</button>
-                                                    </form>
-                                                </div>
+                                                <form method="post" action="{{ route('role.destroy', $role) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item">Remover</button>
+                                                </form>
                                             </div>
-                                        </td>
-{{--                                    @endif--}}
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

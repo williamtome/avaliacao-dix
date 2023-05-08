@@ -9,9 +9,11 @@
                     <div class="col-8">
                         <h4 class="card-title">Usuários</h4>
                     </div>
-                    <div class="col-4 text-right">
-                        <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">Novo</a>
-                    </div>
+                    @if (auth()->user()->role->resources()->where('resource', 'user.store')->exists())
+                        <div class="col-4 text-right">
+                            <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">Novo</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -42,7 +44,9 @@
                                             <i class="fas fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="{{ route('user.edit', $user) }}">Editar</a>
+                                            @if (auth()->user()->role->resources()->where('resource', 'user.update')->exists())
+                                                <a class="dropdown-item" href="{{ route('user.edit', $user) }}">Editar</a>
+                                            @endif
                                             @if (auth()->user()->role->resources()->where('resource', 'user.destroy')->exists())
                                                 <form method="post" action="{{ route('user.destroy', $user) }}">
                                                     @csrf
