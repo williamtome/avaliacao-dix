@@ -8,9 +8,11 @@
                     <div class="col-8">
                         <h4 class="card-title">Notícias</h4>
                     </div>
-                    <div class="col-4 text-right">
-                        <a href="{{ route('news.create') }}" class="btn btn-sm btn-primary">Novo</a>
-                    </div>
+                    @if (auth()->user()->role->resources()->where('resource', 'news.create')->exists())
+                        <div class="col-4 text-right">
+                            <a href="{{ route('news.create') }}" class="btn btn-sm btn-primary">Novo</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -39,12 +41,18 @@
                                             <i class="fas fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="{{ route('news.edit', $n) }}">Editar</a>
-                                            <form method="post" action="{{ route('news.destroy', $n) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="dropdown-item">Remover</button>
-                                            </form>
+                                            @if (auth()->user()->role->resources()->where('resource', 'news.update')->exists())
+                                                <a class="dropdown-item" href="{{ route('news.edit', $n) }}">Editar</a>
+                                            @else
+                                                <a class="dropdown-item" href="{{ route('news.edit', $n) }}">Visualizar</a>
+                                            @endif
+                                            @if (auth()->user()->role->resources()->where('resource', 'news.destroy')->exists())
+                                                <form method="post" action="{{ route('news.destroy', $n) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item">Remover</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
