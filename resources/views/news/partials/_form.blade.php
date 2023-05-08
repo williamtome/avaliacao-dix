@@ -22,7 +22,9 @@
             rows="20"
             class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}"
             placeholder="{{ _('Escreva aqui a sua notícia...') }}"
-        ></textarea>
+        >
+            {{ old('content', isset($news) ? $news->content : '') }}
+        </textarea>
 {{--        <input--}}
 {{--            type="email"--}}
 {{--            name="content"--}}
@@ -34,6 +36,6 @@
     </div>
 </div>
 <div class="card-footer">
-    <a href="{{ route('user.index') }}">{{ _('Voltar') }}</a>
+    <a href="{{ route('news.index') }}">{{ _('Voltar') }}</a>
     <button type="submit" class="btn btn-fill btn-primary">{{ _('Salvar') }}</button>
 </div>

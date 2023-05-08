@@ -14,7 +14,9 @@
                 </div>
             </div>
             <div class="card-body">
+
                 @include('alerts.success')
+
                 <div class="">
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
@@ -38,7 +40,11 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                             <a class="dropdown-item" href="{{ route('news.edit', $n) }}">Editar</a>
-                                            <a class="dropdown-item" href="{{ route('news.destroy', $n) }}">Remover</a>
+                                            <form method="post" action="{{ route('news.destroy', $n) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="dropdown-item">Remover</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>
