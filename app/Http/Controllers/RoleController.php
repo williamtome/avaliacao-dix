@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\ResourceRepository;
+use App\Http\Repositories\RoleRepository;
 use App\Http\Requests\RoleRequest;
 use App\Models\Resource;
 use App\Models\Role;
@@ -11,27 +13,22 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    public function __construct(
+        protected RoleRepository $roleRepository,
+        protected ResourceRepository $resourceRepository,
+    ) {}
+
     public function index(): View
     {
         return view('role.index', [
-            'roles' => Role::all(),
+            'roles' => $this->roleRepository->all(),
         ]);
     }
 
     public function create(): View
     {
-        $resources = Resource::all();
-        $userResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'users')) {
-                return $value;
-            }
-        });
-
-        $newsResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'news')) {
-                return $value;
-            }
-        });
+        $userResources = $this->resourceRepository->getUsers();
+        $newsResources = $this->resourceRepository->getNews();
 
         return view('role.create', [
             'userResources' => $userResources,
@@ -41,10 +38,7 @@ class RoleController extends Controller
 
     public function store(RoleRequest $request): RedirectResponse
     {
-        $role = Role::create([
-            'name' => $request->name,
-            'role' => $request->role,
-        ]);
+        $role = $this->roleRepository->create($request);
 
         $role->resources()->sync($request->permissions);
 
@@ -54,18 +48,8 @@ class RoleController extends Controller
 
     public function edit(Role $role): View
     {
-        $resources = Resource::all();
-        $userResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'users')) {
-                return $value;
-            }
-        });
-
-        $newsResources = $resources->filter(function ($value, $key) {
-            if (str_contains($value, 'news')) {
-                return $value;
-            }
-        });
+        $userResources = $this->resourceRepository->getUsers();
+        $newsResources = $this->resourceRepository->getNews();
 
         return view('role.edit', [
             'role' => $role,
@@ -76,12 +60,8 @@ class RoleController extends Controller
 
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
-        $role->update([
-            'name' => $request->name,
-            'role' => $request->role,
-        ]);
-
-        $role->resources()->sync($request->resources);
+        $this->roleRepository->update($request, $role);
+        $this->roleRepository->syncResources($role, $request->permissions);
 
         return redirect()->route('role.index')
             ->withSuccess('Papel atualizado com sucesso.');
@@ -89,12 +69,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
-        $role->resources()->detach();
-        $role->users->each(function ($user) {
-            $user->role_id = null;
-            $user->save();
-        });
-        $role->delete();
+        $this->roleRepository->detachResources($role);
+        $this->roleRepository->delete($role);
 
         return redirect()->route('role.index')
             ->withSuccess('Papel removido com sucesso.');

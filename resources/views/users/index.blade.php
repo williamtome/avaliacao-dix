@@ -22,6 +22,7 @@
                             <tr>
                                 <th scope="col">Nome</th>
                                 <th scope="col">E-mail</th>
+                                <th scope="col">Papel</th>
                                 <th scope="col">Data de Criação</th>
                                 <th scope="col"></th>
                             </tr>
@@ -33,6 +34,7 @@
                                 <td>
                                     <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                                 </td>
+                                <td>{{ $user->role->name }}</td>
                                 <td>{{ $user->createdAt() }}</td>
                                 <td class="text-right">
                                     <div class="dropdown">
@@ -41,7 +43,13 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                             <a class="dropdown-item" href="{{ route('user.edit', $user) }}">Editar</a>
-                                            <a class="dropdown-item" href="#">Remover</a>
+                                            @if (auth()->user()->role->resources()->where('resource', 'user.destroy')->exists())
+                                                <form method="post" action="{{ route('user.destroy', $user) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item">Remover</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
