@@ -2,84 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Models\News;
+use App\Models\Resource;
+use App\Models\Role;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        $user = auth()->user();
+
+        $news = $user->news()->paginate(10);
+
+        return view('news.index', [
+            'news' => $news,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('role.create', [
+            'userResources' => $userResources,
+            'newsResources' => $newsResources,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(RoleRequest $request): RedirectResponse
     {
-        //
+        $role = Role::create([
+            'name' => $request->name,
+            'role' => $request->role,
+        ]);
+
+        $role->resources()->sync($request->permissions);
+
+        return redirect()->route('role.index')
+            ->withSuccess('Papel criado com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function show(News $news)
+    public function edit(Role $role): View
     {
-        //
+        $resources = Resource::all();
+        $userResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'users')) {
+                return $value;
+            }
+        });
+
+        $newsResources = $resources->filter(function ($value, $key) {
+            if (str_contains($value, 'news')) {
+                return $value;
+            }
+        });
+
+        return view('role.edit', [
+            'role' => $role,
+            'userResources' => $userResources,
+            'newsResources' => $newsResources,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(News $news)
+    public function update(RoleRequest $request, Role $role): RedirectResponse
     {
-        //
+        $role->update([
+            'name' => $request->name,
+            'role' => $request->role,
+        ]);
+
+        $role->resources()->sync($request->resources);
+
+        return redirect()->route('role.index')
+            ->withSuccess('Papel atualizado com sucesso.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, News $news)
+    public function destroy(Role $role): RedirectResponse
     {
-        //
-    }
+        $role->resources()->detach();
+        $role->users->each(function ($user) {
+            $user->role_id = null;
+            $user->save();
+        });
+        $role->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(News $news)
-    {
-        //
+        return redirect()->route('role.index')
+            ->withSuccess('Papel removido com sucesso.');
     }
 }

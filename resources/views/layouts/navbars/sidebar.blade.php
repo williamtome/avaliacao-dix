@@ -17,6 +17,12 @@
                     <p>{{ _('Papéis e Permissões') }}</p>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('news.index') }}">
+                    <i class="tim-icons icon-paper"></i>
+                    <p>{{ _('Notícias') }}</p>
+                </a>
+            </li>
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
                 <a href="{{ route('home') }}">
                     <i class="tim-icons icon-chart-pie-36"></i>
